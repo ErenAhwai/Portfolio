@@ -616,8 +616,7 @@ export default function App() {
           <div className="grid md:grid-cols-[1fr,auto] gap-4 items-center">
             <div>
               <p className="leading-7">
-                Grab a PDF version of my résumé, or skim highlights below. Place your file at <code>public/resume.pdf</code> or
-                <code> src/assets/resume.pdf</code>.
+                Grab a PDF version of my résumé, or skim highlights below.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Pill>

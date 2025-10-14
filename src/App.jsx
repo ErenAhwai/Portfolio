@@ -182,102 +182,122 @@ const PASSIONS = [
 // 🗓️ INTERACTIVE TIMELINE (Balanced hues)
 // =====================
 function buildTimeline() {
-  const hue = "from-[#9dbf9a] to-[#f3a38c]"; // calm coherent family
-  const edu = EDUCATION.map((e) => ({
-    type: "Education",
-    title: e.school,
-    subtitle: e.city,
-    start: new Date(e.start),
-    end: new Date(e.end),
-    badge: e.dates,
-    color: hue,
-  }));
-  const exp = EXPERIENCE.map((e) => ({
-    type: "Experience",
-    title: `${e.role} · ${e.org}`,
-    subtitle: e.summary,
-    start: new Date(e.start),
-    end: new Date(e.end),
-    badge: e.dates,
-    color: hue,
-  }));
-  const extra = EXTRAS.map((e) => ({
-    type: "Extracurricular",
-    title: `${e.title} · ${e.org}`,
-    subtitle: e.bullets.join(" • "),
-    start: new Date(e.start),
-    end: new Date(e.end),
-    badge: e.dates,
-    color: hue,
-  }));
-  const proj = PROJECTS.map((p) => ({
-    type: "Project",
-    title: p.name,
-    subtitle: p.desc,
-    start: new Date(p.start),
-    end: new Date(p.end),
-    badge: p.dates,
-    color: hue,
-  }));
+  const hue = "from-[#9dbf9a] to-[#f3a38c]"; // calm family
+
+  const edu = [
+    {
+      type: "Education",
+      title: "Queen's University — Computer Engineering (Innovation)",
+      subtitle:
+        "1st-year BASc. Key courses in programming, data structures, digital systems. GPA 3.49; Dean’s Scholar (2025).",
+      start: new Date("2024-09-01"),
+      end: new Date("2028-04-30"),
+      badge: "2024 – Present",
+      color: hue,
+    },
+    {
+      type: "Education",
+      title: "West Carleton Secondary School",
+      subtitle:
+        "94% average; Silver Medal (Gr 9–12). Strong STEM focus; leadership in clubs and robotics events.",
+      start: new Date("2020-09-01"),
+      end: new Date("2024-06-30"),
+      badge: "2020 – 2024",
+      color: hue,
+    },
+  ];
+
+  const exp = [
+    {
+      type: "Experience",
+      title: "Tutor — Tutorax",
+      subtitle:
+        "1-on-1 sessions to lift understanding; adapted teaching per student; communicated progress to parents.",
+      start: new Date("2025-05-01"),
+      end: new Date("2025-10-01"),
+      badge: "May 2025 – Present",
+      color: hue,
+    },
+    {
+      type: "Experience",
+      title: "Ski Instructor — Mount Pakenham",
+      subtitle:
+        "Taught safe fundamentals and technique; tailored feedback across age groups; teamwork on the hill.",
+      start: new Date("2021-11-01"),
+      end: new Date("2022-03-31"),
+      badge: "Nov 2021 – Mar 2022",
+      color: hue,
+    },
+  ];
+
+  const extra = [
+    {
+      type: "Extracurricular",
+      title: "Project Manager — Engineering Society Software Dev Team",
+      subtitle:
+        "Led 3 devs building a résumé help service; taught Git/GitHub; planned with a spiral model to ship sustainably.",
+      start: new Date("2025-05-01"),
+      end: new Date("2025-10-01"),
+      badge: "May 2025 – Present",
+      color: hue,
+    },
+    {
+      type: "Extracurricular",
+      title: "Software Developer — Queen’s Aerospace Design Team",
+      subtitle:
+        "Linux env setup with Bash; drone code with PX4 + ROS2; collaborated with Git to meet competition tasks.",
+      start: new Date("2024-11-01"),
+      end: new Date("2025-10-01"),
+      badge: "Nov 2024 – Present",
+      color: hue,
+    },
+    {
+      type: "Extracurricular",
+      title: "Orientation Leader (FREC) — Queen’s Engineering Society",
+      subtitle:
+        "Mentored first-years through transition; ran activities for a 20-student group; connected them to resources.",
+      start: new Date("2025-09-01"),
+      end: new Date("2025-10-01"),
+      badge: "2025 – Present",
+      color: hue,
+    },
+    {
+      type: "Extracurricular",
+      title: "Webmaster — IEEE Ottawa Robotics Competition",
+      subtitle:
+        "Maintained/updated the site so 80+ students could register; kept content current for multiple events.",
+      start: new Date("2023-11-01"),
+      end: new Date("2024-05-31"),
+      badge: "Nov 2023 – May 2024",
+      color: hue,
+    },
+  ];
+
+  const proj = [
+    {
+      type: "Project",
+      title: "Photo Optimizer",
+      subtitle:
+        "Ranks/selects best shots from a set using simple heuristics; rapid Python/OpenCV iteration.",
+      start: new Date("2025-06-01"),
+      end: new Date("2025-10-01"),
+      badge: "Summer 2025 – Present",
+      color: hue,
+    },
+    {
+      type: "Project",
+      title: "Grade 12 Progress Report System",
+      subtitle:
+        "PHP/JS/SQL web app with CSV ETL into DB; teacher marking UI and email distribution; Bootstrap UI.",
+      start: new Date("2022-09-01"),
+      end: new Date("2023-01-31"),
+      badge: "Sept 2022 – Jan 2023",
+      color: hue,
+    },
+  ];
+
   return [...edu, ...exp, ...extra, ...proj].sort((a, b) => a.start - b.start);
 }
-
-const Timeline = () => {
-  const items = useMemo(() => buildTimeline(), []);
-  const [active, setActive] = useState(items.length - 1);
-
-  return (
-    <Card>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <CalendarRange size={18} />
-          <span className="font-semibold">Interactive Timeline</span>
-        </div>
-        <div className="text-sm text-zinc-500">Drag · Scroll · Click</div>
-      </div>
-
-      {/* Horizontal scroll-snap timeline */}
-      <div className="relative">
-        <div className="overflow-x-auto snap-x snap-mandatory pb-4" id="timeline-strip">
-          <div className="flex gap-6 min-w-max pr-2">
-            {items.map((it, i) => (
-              <motion.button
-                key={i}
-                onClick={() => setActive(i)}
-                whileHover={{ y: -4 }}
-                className={`group snap-start text-left w-64 shrink-0 rounded-2xl border border-white/10 p-4 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900 shadow-md backdrop-blur transition-colors ${
-                  i === active ? "ring-2 ring-emerald-300" : ""
-                }`}
-              >
-                <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">{it.type}</div>
-                <div className="font-semibold leading-snug">{it.title}</div>
-                <div className="text-xs mt-1 text-zinc-500">{it.badge}</div>
-              </motion.button>
-            ))}
-          </div>
-        </div>
-
-        {/* Active details card */}
-        <motion.div
-          key={active}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
-          className="mt-4 rounded-2xl border border-white/10 p-5 bg-gradient-to-br from-[#9dbf9a]/12 to-[#f3a38c]/12"
-        >
-          <div className="text-sm uppercase tracking-wider text-emerald-300 flex items-center gap-2">
-            <Sparkles size={16} /> {items[active].type}
-          </div>
-          <div className="mt-1 text-lg font-semibold">{items[active].title}</div>
-          <div className="text-sm text-zinc-500">{items[active].badge}</div>
-          <p className="mt-2 leading-7 text-sm text-zinc-200/90 dark:text-zinc-300/90">
-            {items[active].subtitle}
-          </p>
-        </motion.div>
-      </div>
-    </Card>
-  );
-};
 
 // =====================
 // 🧭 NAV

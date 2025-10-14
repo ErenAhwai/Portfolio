@@ -189,7 +189,7 @@ function buildTimeline() {
       type: "Education",
       title: "Queen's University — Computer Engineering (Innovation)",
       subtitle:
-        "BASc focus on programming, data structures, and digital systems. GPA 3.49; Dean’s Scholar (2025).",
+        "BASc focus on programming, data structures, and digital systems. GPA 3.5; Dean’s Scholar (2025).",
       start: new Date("2024-09-01"),
       end: new Date("2028-04-30"),
       badge: "2024 – Present",

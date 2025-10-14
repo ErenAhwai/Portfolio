@@ -88,7 +88,7 @@ const EDUCATION = [
     start: "2024-09-01",
     end: "2028-04-30",
     city: "Kingston, ON, Canada",
-    bullets: ["3.49 GPA", "Dean's Honour List"],
+    bullets: ["3.5 GPA", "Dean's Honour List"],
   },
   {
     school: "West Carleton Secondary School",

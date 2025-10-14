@@ -324,26 +324,32 @@ const Timeline = () => {
           </div>
         </div>
 
-        {/* ✅ High-contrast details card */}
-        <motion.div
-          key={active}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
-          className="mt-4 rounded-2xl border border-white/10 p-5 bg-white/85 dark:bg-zinc-900/70 backdrop-blur shadow-md"
-        >
-          <div className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 flex items-center gap-2">
-            <Sparkles size={16} /> {items[active].type}
-          </div>
-          <div className="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-            {items[active].title}
-          </div>
-          <div className="text-sm text-zinc-600 dark:text-zinc-400">{items[active].badge}</div>
+        {/* Active details card — high contrast */}
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="mt-4 rounded-2xl border border-white/10 p-5 bg-white dark:bg-zinc-900 shadow-md"
+          >
+            <div className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 flex items-center gap-2">
+              <Sparkles size={16} /> {items[active].type}
+            </div>
 
-          <p className="mt-3 leading-7 text-[15px] text-zinc-700 dark:text-zinc-300">
-            {items[active].subtitle || "Short description coming soon."}
-          </p>
-        </motion.div>
+            <div className="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+              {items[active].title}
+            </div>
+
+            <div className="text-sm text-zinc-600 dark:text-zinc-400">
+              {items[active].badge}
+            </div>
+
+            {/* 👇 make the summary readable in both themes */}
+            <p className="mt-3 leading-7 text-[15px] text-zinc-700 dark:text-zinc-300">
+              {items[active].subtitle || "Short description coming soon."}
+            </p>
+          </motion.div>
+
       </div>
     </Card>
   );

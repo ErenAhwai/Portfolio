@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+/* ensure timeline summary is dark in light theme */
+.timeline-details p { color: #27272a !important; } /* zinc-800 */
+@media (prefers-color-scheme: dark) {
+  .timeline-details p { color: rgb(212 212 216 / 1) !important; } /* zinc-300 */
+}
+

@@ -289,6 +289,7 @@ function buildTimeline() {
   return [...edu, ...exp, ...extra, ...proj].sort((a, b) => a.start - b.start);
 }
 
+// FULL replacement for your Timeline component
 const Timeline = () => {
   const items = useMemo(() => buildTimeline(), []);
   const [active, setActive] = useState(items.length - 1);
@@ -303,7 +304,7 @@ const Timeline = () => {
         <div className="text-sm text-zinc-500">Drag · Scroll · Click</div>
       </div>
 
-      {/* Horizontal scroll-snap timeline */}
+      {/* chips */}
       <div className="relative">
         <div className="overflow-x-auto snap-x snap-mandatory pb-4" id="timeline-strip">
           <div className="flex gap-6 min-w-max pr-2">
@@ -312,48 +313,71 @@ const Timeline = () => {
                 key={i}
                 onClick={() => setActive(i)}
                 whileHover={{ y: -4 }}
-                className={`group snap-start text-left w-64 shrink-0 rounded-2xl border border-white/10 p-4 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900 shadow-md backdrop-blur transition-colors ${
-                  i === active ? "ring-2 ring-emerald-300" : ""
-                }`}
+                className={`group snap-start text-left w-64 shrink-0 rounded-2xl border
+                  border-black/5 dark:border-white/10 p-4
+                  bg-white hover:bg-zinc-50
+                  dark:bg-zinc-900 dark:hover:bg-zinc-800
+                  shadow-md transition-colors
+                  ${i === active ? "ring-2 ring-emerald-300" : ""}`}
               >
                 <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">{it.type}</div>
-                <div className="font-semibold leading-snug">{it.title}</div>
-                <div className="text-xs mt-1 text-zinc-500">{it.badge}</div>
+                <div className="font-semibold leading-snug text-zinc-900 dark:text-zinc-100">
+                  {it.title}
+                </div>
+                <div className="text-xs mt-1 text-zinc-500 dark:text-zinc-400">{it.badge}</div>
               </motion.button>
             ))}
           </div>
         </div>
 
-        {/* Active details card — high contrast */}
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
-            className="mt-4 rounded-2xl border border-white/10 p-5 bg-white dark:bg-zinc-900 shadow-md"
-          >
-            <div className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 flex items-center gap-2">
-              <Sparkles size={16} /> {items[active].type}
+        {/* ACTIVE DETAILS CARD — guaranteed readable in light mode */}
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="mt-4 rounded-2xl border
+                     border-black/5 dark:border-white/10 p-5
+                     bg-white text-zinc-800
+                     dark:bg-zinc-900 dark:text-zinc-100
+                     shadow-md"
+        >
+          <div className="text-xs uppercase tracking-wider
+                          text-emerald-700 dark:text-emerald-300
+                          flex items-center gap-2">
+            <Sparkles size={16} /> {items[active].type}
+          </div>
+
+          <div className="mt-1 text-lg font-semibold">{items[active].title}</div>
+          <div className="text-sm text-zinc-600 dark:text-zinc-400">{items[active].badge}</div>
+
+          {/* the line that was “invisible” before */}
+          <p className="mt-3 leading-7 text-[15px]">
+            {items[active].subtitle || "Summary coming soon."}
+          </p>
+
+          {/* optional tags if you added them in buildTimeline() */}
+          {items[active].tags?.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {items[active].tags.map((t, i) => (
+                <span
+                  key={i}
+                  className="px-2.5 py-1 rounded-full text-xs
+                             bg-zinc-100 text-zinc-700
+                             dark:bg-zinc-800 dark:text-zinc-200
+                             border border-black/5 dark:border-white/10"
+                >
+                  {t}
+                </span>
+              ))}
             </div>
-
-            <div className="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-              {items[active].title}
-            </div>
-
-            <div className="text-sm text-zinc-600 dark:text-zinc-400">
-              {items[active].badge}
-            </div>
-
-            {/* 👇 make the summary readable in both themes */}
-            <p className="mt-3 leading-7 text-[15px] text-zinc-700 dark:text-zinc-300">
-              {items[active].subtitle || "Short description coming soon."}
-            </p>
-          </motion.div>
-
+          )}
+        </motion.div>
       </div>
     </Card>
   );
 };
+
 
 
 // =====================

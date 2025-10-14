@@ -623,7 +623,7 @@ export default function App() {
                 <Pill>
                   <Trophy size={14} className="mr-1" /> Dean's Honour List
                 </Pill>
-                <Pill>GPA 3.49</Pill>
+                <Pill>GPA 3.5</Pill>
                 <Pill>ROS2 • PX4 • OpenCV</Pill>
                 <Pill>Python • C • PHP • SQL • JS</Pill>
               </div>

@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 
 /**
- * 🔒 Asset handling that NEVER crashes:
- * - If you drop files in src/assets, they’ll be bundled and used.
- * - If not, we fall back to /public files (works locally & on GH Pages subpaths).
+ * 🔒 Asset handling:
+ * - If you drop files in src/assets, they’ll be bundled and used (headshot.jpg / resume.pdf).
+ * - If not, we fall back to /public files (avatar.jpg / resume.pdf) via BASE URL (works on GH Pages).
  */
 const assets = import.meta.glob("./assets/*", { eager: true, as: "url" });
 const BASE = import.meta.env.BASE_URL || "/";
@@ -179,7 +179,7 @@ const PASSIONS = [
 ];
 
 // =====================
-// 🗓️ INTERACTIVE TIMELINE (Balanced hues)
+// 🗓️ INTERACTIVE TIMELINE (with real summaries)
 // =====================
 function buildTimeline() {
   const hue = "from-[#9dbf9a] to-[#f3a38c]"; // calm family
@@ -189,7 +189,7 @@ function buildTimeline() {
       type: "Education",
       title: "Queen's University — Computer Engineering (Innovation)",
       subtitle:
-        "1st-year BASc. Key courses in programming, data structures, digital systems. GPA 3.49; Dean’s Scholar (2025).",
+        "BASc focus on programming, data structures, and digital systems. GPA 3.49; Dean’s Scholar (2025).",
       start: new Date("2024-09-01"),
       end: new Date("2028-04-30"),
       badge: "2024 – Present",
@@ -199,7 +199,7 @@ function buildTimeline() {
       type: "Education",
       title: "West Carleton Secondary School",
       subtitle:
-        "94% average; Silver Medal (Gr 9–12). Strong STEM focus; leadership in clubs and robotics events.",
+        "94% average; Silver Medal (Gr 9–12). STEM-heavy load; leadership in clubs and robotics events.",
       start: new Date("2020-09-01"),
       end: new Date("2024-06-30"),
       badge: "2020 – 2024",
@@ -212,7 +212,7 @@ function buildTimeline() {
       type: "Experience",
       title: "Tutor — Tutorax",
       subtitle:
-        "1-on-1 sessions to lift understanding; adapted teaching per student; communicated progress to parents.",
+        "1-on-1 support tailored to each learner; progress updates; emphasis on clarity and study habits.",
       start: new Date("2025-05-01"),
       end: new Date("2025-10-01"),
       badge: "May 2025 – Present",
@@ -222,7 +222,7 @@ function buildTimeline() {
       type: "Experience",
       title: "Ski Instructor — Mount Pakenham",
       subtitle:
-        "Taught safe fundamentals and technique; tailored feedback across age groups; teamwork on the hill.",
+        "Taught fundamentals and safety; adapted coaching across ages; strong teamwork on the hill.",
       start: new Date("2021-11-01"),
       end: new Date("2022-03-31"),
       badge: "Nov 2021 – Mar 2022",
@@ -233,19 +233,19 @@ function buildTimeline() {
   const extra = [
     {
       type: "Extracurricular",
-      title: "Project Manager — Engineering Society Software Dev Team",
+      title: "Project Manager — ESSDev (Engineering Society)",
       subtitle:
-        "Led 3 devs building a résumé help service; taught Git/GitHub; planned with a spiral model to ship sustainably.",
-      start: new Date("2025-05-01"),
+        "Led 3 devs on a résumé-help tool; taught Git/GitHub; shipped iteratively with a spiral model.",
+      start: new Date("2025-09-01"),
       end: new Date("2025-10-01"),
-      badge: "May 2025 – Present",
+      badge: "Sept 2025 – Present",
       color: hue,
     },
     {
       type: "Extracurricular",
-      title: "Software Developer — Queen’s Aerospace Design Team",
+      title: "Software — Queen’s Aerospace Design Team",
       subtitle:
-        "Linux env setup with Bash; drone code with PX4 + ROS2; collaborated with Git to meet competition tasks.",
+        "PX4 + ROS2 components; Linux env setup; Git collaboration to hit competition milestones.",
       start: new Date("2024-11-01"),
       end: new Date("2025-10-01"),
       badge: "Nov 2024 – Present",
@@ -253,19 +253,9 @@ function buildTimeline() {
     },
     {
       type: "Extracurricular",
-      title: "Orientation Leader (FREC) — Queen’s Engineering Society",
-      subtitle:
-        "Mentored first-years through transition; ran activities for a 20-student group; connected them to resources.",
-      start: new Date("2025-09-01"),
-      end: new Date("2025-10-01"),
-      badge: "2025 – Present",
-      color: hue,
-    },
-    {
-      type: "Extracurricular",
       title: "Webmaster — IEEE Ottawa Robotics Competition",
       subtitle:
-        "Maintained/updated the site so 80+ students could register; kept content current for multiple events.",
+        "Maintained event site for 80+ students; ensured registrations and information were up to date.",
       start: new Date("2023-11-01"),
       end: new Date("2024-05-31"),
       badge: "Nov 2023 – May 2024",
@@ -278,7 +268,7 @@ function buildTimeline() {
       type: "Project",
       title: "Photo Optimizer",
       subtitle:
-        "Ranks/selects best shots from a set using simple heuristics; rapid Python/OpenCV iteration.",
+        "Python/OpenCV script ranks a photo set by sharpness, contrast, and basic face heuristics.",
       start: new Date("2025-06-01"),
       end: new Date("2025-10-01"),
       badge: "Summer 2025 – Present",
@@ -288,7 +278,7 @@ function buildTimeline() {
       type: "Project",
       title: "Grade 12 Progress Report System",
       subtitle:
-        "PHP/JS/SQL web app with CSV ETL into DB; teacher marking UI and email distribution; Bootstrap UI.",
+        "PHP/JS/SQL app: CSV→DB import, teacher marking UI, email distribution, Bootstrap front end.",
       start: new Date("2022-09-01"),
       end: new Date("2023-01-31"),
       badge: "Sept 2022 – Jan 2023",
@@ -298,6 +288,67 @@ function buildTimeline() {
 
   return [...edu, ...exp, ...extra, ...proj].sort((a, b) => a.start - b.start);
 }
+
+const Timeline = () => {
+  const items = useMemo(() => buildTimeline(), []);
+  const [active, setActive] = useState(items.length - 1);
+
+  return (
+    <Card>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <CalendarRange size={18} />
+          <span className="font-semibold">Interactive Timeline</span>
+        </div>
+        <div className="text-sm text-zinc-500">Drag · Scroll · Click</div>
+      </div>
+
+      {/* Horizontal scroll-snap timeline */}
+      <div className="relative">
+        <div className="overflow-x-auto snap-x snap-mandatory pb-4" id="timeline-strip">
+          <div className="flex gap-6 min-w-max pr-2">
+            {items.map((it, i) => (
+              <motion.button
+                key={i}
+                onClick={() => setActive(i)}
+                whileHover={{ y: -4 }}
+                className={`group snap-start text-left w-64 shrink-0 rounded-2xl border border-white/10 p-4 bg-white/80 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900 shadow-md backdrop-blur transition-colors ${
+                  i === active ? "ring-2 ring-emerald-300" : ""
+                }`}
+              >
+                <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">{it.type}</div>
+                <div className="font-semibold leading-snug">{it.title}</div>
+                <div className="text-xs mt-1 text-zinc-500">{it.badge}</div>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+
+        {/* ✅ High-contrast details card */}
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="mt-4 rounded-2xl border border-white/10 p-5 bg-white/85 dark:bg-zinc-900/70 backdrop-blur shadow-md"
+        >
+          <div className="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 flex items-center gap-2">
+            <Sparkles size={16} /> {items[active].type}
+          </div>
+          <div className="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            {items[active].title}
+          </div>
+          <div className="text-sm text-zinc-600 dark:text-zinc-400">{items[active].badge}</div>
+
+          <p className="mt-3 leading-7 text-[15px] text-zinc-700 dark:text-zinc-300">
+            {items[active].subtitle || "Short description coming soon."}
+          </p>
+        </motion.div>
+      </div>
+    </Card>
+  );
+};
+
 
 // =====================
 // 🧭 NAV
@@ -535,7 +586,8 @@ export default function App() {
           <div className="grid md:grid-cols-[1fr,auto] gap-4 items-center">
             <div>
               <p className="leading-7">
-                Grab a PDF version of my résumé, or skim highlights below.
+                Grab a PDF version of my résumé, or skim highlights below. Place your file at <code>public/resume.pdf</code> or
+                <code> src/assets/resume.pdf</code>.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Pill>
